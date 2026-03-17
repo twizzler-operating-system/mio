@@ -2,14 +2,13 @@
 //!
 //! Required types:
 //!
-//! * `Event`: a type alias for the system specific event, e.g. `kevent` or
-//!   `epoll_event`.
-//! * `event`: a module with various helper functions for `Event`, see
-//!   [`crate::event::Event`] for the required functions.
+//! * `Event`: a type alias for the system specific event, e.g. `kevent` or `epoll_event`.
+//! * `event`: a module with various helper functions for `Event`, see [`crate::event::Event`] for
+//!   the required functions.
 //! * `Events`: collection of `Event`s, see [`crate::Events`].
 //! * `IoSourceState`: state for the `IoSource` type.
-//! * `Selector`: selector used to register event sources and poll for events,
-//!   see [`crate::Poll`] and [`crate::Registry`] for required methods.
+//! * `Selector`: selector used to register event sources and poll for events, see [`crate::Poll`]
+//!   and [`crate::Registry`] for required methods.
 //! * `tcp` and `udp` modules: see the [`crate::net`] module.
 //! * `Waker`: see [`crate::Waker`].
 
@@ -50,7 +49,7 @@ cfg_os_poll! {
     }
 }
 
-#[cfg(any(unix, target_os = "hermit"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "twizzler"))]
 cfg_os_poll! {
     mod unix;
     #[allow(unused_imports)]

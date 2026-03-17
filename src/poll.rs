@@ -1,25 +1,27 @@
-#[cfg(all(
-    unix,
-    not(mio_unsupported_force_poll_poll),
-    not(any(
-        target_os = "aix",
-        target_os = "espidf",
-        target_os = "fuchsia",
-        target_os = "haiku",
-        target_os = "hermit",
-        target_os = "hurd",
-        target_os = "nto",
-        target_os = "solaris",
-        target_os = "vita"
-    )),
+#[cfg(any(
+    all(
+        unix,
+        not(mio_unsupported_force_poll_poll),
+        not(any(
+            target_os = "aix",
+            target_os = "espidf",
+            target_os = "fuchsia",
+            target_os = "haiku",
+            target_os = "hermit",
+            target_os = "hurd",
+            target_os = "nto",
+            target_os = "solaris",
+            target_os = "vita"
+        )),
+    ),
+    target_os = "twizzler"
 ))]
 use std::os::fd::{AsRawFd, RawFd};
 #[cfg(all(debug_assertions, not(target_os = "wasi")))]
 use std::sync::atomic::{AtomicBool, Ordering};
 #[cfg(all(debug_assertions, not(target_os = "wasi")))]
 use std::sync::Arc;
-use std::time::Duration;
-use std::{fmt, io};
+use std::{fmt, io, time::Duration};
 
 use crate::{event, sys, Events, Interest, Token};
 
@@ -47,7 +49,6 @@ use crate::{event, sys, Events, Interest, Token};
 /// # Examples
 ///
 /// A basic example -- establishing a `TcpStream` connection.
-///
 #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
 #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
 /// # use std::error::Error;
@@ -86,7 +87,7 @@ use crate::{event, sys, Events, Interest, Token};
 /// }
 /// # }
 /// ```
-///
+/// 
 /// # Portability
 ///
 /// Using `Poll` provides a portable interface across supported platforms as
@@ -144,7 +145,6 @@ use crate::{event, sys, Events, Interest, Token};
 /// `Poll`.
 ///
 /// For example:
-///
 #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
 #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
 /// # use std::error::Error;
@@ -170,7 +170,7 @@ use crate::{event, sys, Events, Interest, Token};
 /// #     Ok(())
 /// # }
 /// ```
-///
+/// 
 /// ### Dropping `Poll`
 ///
 /// When the `Poll` instance is dropped it may cancel in-flight operations for
@@ -381,7 +381,6 @@ impl Poll {
     /// # Examples
     ///
     /// A basic example -- establishing a `TcpStream` connection.
-    ///
     #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     /// # use std::error::Error;
@@ -430,27 +429,30 @@ impl Poll {
     /// }
     /// # }
     /// ```
-    ///
+    /// 
     /// [struct]: #
     pub fn poll(&mut self, events: &mut Events, timeout: Option<Duration>) -> io::Result<()> {
         self.registry.selector.select(events.sys(), timeout)
     }
 }
 
-#[cfg(all(
-    unix,
-    not(mio_unsupported_force_poll_poll),
-    not(any(
-        target_os = "aix",
-        target_os = "espidf",
-        target_os = "fuchsia",
-        target_os = "haiku",
-        target_os = "hermit",
-        target_os = "hurd",
-        target_os = "nto",
-        target_os = "solaris",
-        target_os = "vita"
-    )),
+#[cfg(any(
+    all(
+        unix,
+        not(mio_unsupported_force_poll_poll),
+        not(any(
+            target_os = "aix",
+            target_os = "espidf",
+            target_os = "fuchsia",
+            target_os = "haiku",
+            target_os = "hermit",
+            target_os = "hurd",
+            target_os = "nto",
+            target_os = "solaris",
+            target_os = "vita"
+        )),
+    ),
+    target_os = "twizzler"
 ))]
 impl AsRawFd for Poll {
     fn as_raw_fd(&self) -> RawFd {
@@ -517,7 +519,6 @@ impl Registry {
     /// [`Token`]: struct.Token.html
     ///
     /// # Examples
-    ///
     #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     /// # use std::error::Error;
@@ -595,7 +596,6 @@ impl Registry {
     /// polling.
     ///
     /// # Examples
-    ///
     #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     /// # use std::error::Error;
@@ -626,7 +626,7 @@ impl Registry {
     /// #     Ok(())
     /// # }
     /// ```
-    ///
+    /// 
     /// [`event::Source`]: ./event/trait.Source.html
     /// [`struct`]: struct.Poll.html
     /// [`register`]: struct.Registry.html#method.register
@@ -662,7 +662,6 @@ impl Registry {
     /// instance, otherwise the behavior is unspecified.
     ///
     /// # Examples
-    ///
     #[cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #[cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     /// # use std::error::Error;
@@ -738,20 +737,23 @@ impl fmt::Debug for Registry {
     }
 }
 
-#[cfg(all(
-    unix,
-    not(mio_unsupported_force_poll_poll),
-    not(any(
-        target_os = "aix",
-        target_os = "espidf",
-        target_os = "haiku",
-        target_os = "fuchsia",
-        target_os = "hermit",
-        target_os = "hurd",
-        target_os = "nto",
-        target_os = "solaris",
-        target_os = "vita"
-    )),
+#[cfg(any(
+    all(
+        unix,
+        not(mio_unsupported_force_poll_poll),
+        not(any(
+            target_os = "aix",
+            target_os = "espidf",
+            target_os = "haiku",
+            target_os = "fuchsia",
+            target_os = "hermit",
+            target_os = "hurd",
+            target_os = "nto",
+            target_os = "solaris",
+            target_os = "vita"
+        )),
+    ),
+    target_os = "twizzler"
 ))]
 impl AsRawFd for Registry {
     fn as_raw_fd(&self) -> RawFd {

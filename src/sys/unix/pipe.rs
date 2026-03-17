@@ -34,6 +34,7 @@ pub(crate) fn new_raw() -> io::Result<[RawFd; 2]> {
         target_os = "ios",
         target_os = "macos",
         target_os = "tvos",
+        target_os = "twizzler",
         target_os = "visionos",
         target_os = "watchos",
         target_os = "espidf",

@@ -29,7 +29,6 @@ use crate::{event, Interest, Registry, Token};
 /// # Examples
 ///
 /// Basic usage.
-///
 #[cfg_attr(
     all(feature = "os-poll", feature = "net", feature = "os-ext"),
     doc = "```"
@@ -59,9 +58,8 @@ use crate::{event, Interest, Registry, Token};
 /// #     Ok(())
 /// # }
 /// ```
-///
+/// 
 /// Implementing [`event::Source`] for a custom type backed by a [`RawFd`].
-///
 #[cfg_attr(all(feature = "os-poll", feature = "os-ext"), doc = "```")]
 #[cfg_attr(not(all(feature = "os-poll", feature = "os-ext")), doc = "```ignore")]
 /// use mio::{event, Interest, Registry, Token};
@@ -94,6 +92,7 @@ use crate::{event, Interest, Registry, Token};
 /// }
 /// ```
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct SourceFd<'a>(pub &'a RawFd);
 
 impl<'a> event::Source for SourceFd<'a> {

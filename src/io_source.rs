@@ -1,5 +1,5 @@
 use std::ops::{Deref, DerefMut};
-#[cfg(any(unix, target_os = "wasi"))]
+#[cfg(any(unix, target_os = "wasi", target_os = "twizzler"))]
 use std::os::fd::AsRawFd;
 // TODO: once <https://github.com/rust-lang/rust/issues/126198> is fixed this
 // can use `std::os::fd` and be merged with the above.
@@ -104,7 +104,7 @@ impl<T> DerefMut for IoSource<T> {
     }
 }
 
-#[cfg(any(unix, target_os = "hermit"))]
+#[cfg(any(unix, target_os = "hermit", target_os = "twizzler"))]
 impl<T> event::Source for IoSource<T>
 where
     T: AsRawFd,

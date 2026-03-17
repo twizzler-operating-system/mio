@@ -34,6 +34,7 @@ cfg_os_poll! {
             target_os = "netbsd",
             target_os = "openbsd",
             target_os = "tvos",
+            target_os = "twizzler",
             target_os = "visionos",
             target_os = "watchos",
         )
@@ -72,6 +73,7 @@ cfg_os_poll! {
             target_os = "ios",
             target_os = "macos",
             target_os = "tvos",
+            target_os = "twizzler",
             target_os = "visionos",
             target_os = "watchos",
         )
@@ -108,6 +110,7 @@ cfg_os_poll! {
 
     mod sourcefd;
     #[cfg(feature = "os-ext")]
+    #[allow(unused_imports)]
     pub use self::sourcefd::SourceFd;
 
     cfg_net! {
@@ -115,7 +118,7 @@ cfg_os_poll! {
 
         pub(crate) mod tcp;
         pub(crate) mod udp;
-        #[cfg(not(target_os = "hermit"))]
+        #[cfg(not(any(target_os = "hermit", target_os = "twizzler")))]
         pub(crate) mod uds;
     }
 
@@ -146,6 +149,7 @@ cfg_os_poll! {
             target_os = "nto",
             target_os = "openbsd",
             target_os = "redox",
+            target_os = "twizzler",
             target_os = "solaris",
             target_os = "vita",
         ),

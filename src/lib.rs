@@ -82,7 +82,21 @@ pub mod unix {
         //!
         //! See the [`new`] function for documentation.
 
-        pub use crate::sys::pipe::{new, Receiver, Sender};
+        pub use crate::sys::pipe::{Receiver, Sender, new};
+    }
+
+    pub use crate::sys::SourceFd;
+}
+
+#[cfg(all(target_os = "twizzler", feature = "os-ext"))]
+#[cfg_attr(docsrs, doc(cfg(all(unix, feature = "os-ext"))))]
+pub mod unix {
+    //! Unix only extensions.
+    pub mod pipe {
+        //! Unix pipe.
+        //!
+        //! See the [`new`] function for documentation.
+        pub use crate::sys::pipe::{Receiver, Sender, new};
     }
 
     pub use crate::sys::SourceFd;
@@ -108,7 +122,6 @@ pub mod features {
     //! # Mio's optional features.
     //!
     //! This document describes the available features in Mio.
-    //!
     #![cfg_attr(feature = "os-poll", doc = "## `os-poll` (enabled)")]
     #![cfg_attr(not(feature = "os-poll"), doc = "## `os-poll` (disabled)")]
     //!
@@ -117,13 +130,11 @@ pub mod features {
     //! enabled by activating the `os-poll` feature.
     //!
     //! This makes `Poll`, `Registry` and `Waker` functional.
-    //!
     #![cfg_attr(feature = "os-ext", doc = "## `os-ext` (enabled)")]
     #![cfg_attr(not(feature = "os-ext"), doc = "## `os-ext` (disabled)")]
     //!
     //! `os-ext` enables additional OS specific facilities. These facilities can
     //! be found in the `unix` and `windows` module.
-    //!
     #![cfg_attr(feature = "net", doc = "## Network types (enabled)")]
     #![cfg_attr(not(feature = "net"), doc = "## Network types (disabled)")]
     //!
@@ -150,7 +161,6 @@ pub mod guide {
     //!
     //! [`Poll`]: ../struct.Poll.html
     //! [`Events`]: ../event/struct.Events.html
-    //!
     #![cfg_attr(feature = "os-poll", doc = "```")]
     #![cfg_attr(not(feature = "os-poll"), doc = "```ignore")]
     //! # use mio::{Poll, Events};
@@ -185,7 +195,6 @@ pub mod guide {
     //! an event (from [`Poll`]) once a connection is ready to be accepted.
     //!
     //! [event source]: ../event/trait.Source.html
-    //!
     #![cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #![cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     //! # use mio::net::TcpListener;
@@ -224,7 +233,6 @@ pub mod guide {
     //!
     //! [poll]: ../struct.Poll.html#method.poll
     //! [event sources]: ../event/trait.Source.html
-    //!
     #![cfg_attr(all(feature = "os-poll", feature = "net"), doc = "```")]
     #![cfg_attr(not(all(feature = "os-poll", feature = "net")), doc = "```ignore")]
     //! # use std::io;

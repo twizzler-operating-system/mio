@@ -56,6 +56,7 @@ pub(crate) fn new_socket(domain: libc::c_int, socket_type: libc::c_int) -> io::R
         target_os = "ios",
         target_os = "macos",
         target_os = "tvos",
+        target_os = "twizzler",
         target_os = "visionos",
         target_os = "watchos",
         target_os = "espidf",

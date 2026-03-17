@@ -1,11 +1,15 @@
-use crate::{Interest, Token};
-use std::mem::{self, MaybeUninit};
-use std::ops::{Deref, DerefMut};
-use std::os::fd::{AsRawFd, FromRawFd, OwnedFd, RawFd};
 #[cfg(debug_assertions)]
 use std::sync::atomic::{AtomicUsize, Ordering};
-use std::time::Duration;
-use std::{cmp, io, ptr, slice};
+use std::{
+    cmp, io,
+    mem::{self, MaybeUninit},
+    ops::{Deref, DerefMut},
+    os::fd::{AsRawFd, FromRawFd, OwnedFd, RawFd},
+    ptr, slice,
+    time::Duration,
+};
+
+use crate::{Interest, Token};
 
 /// Unique id for use as `SelectorId`.
 #[cfg(debug_assertions)]
@@ -18,7 +22,12 @@ type Count = libc::c_int;
 type Count = libc::size_t;
 
 // Type of the `filter` field in the `kevent` structure.
-#[cfg(any(target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))]
+#[cfg(any(
+    target_os = "dragonfly",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "twizzler"
+))]
 type Filter = libc::c_short;
 #[cfg(any(
     target_os = "ios",
@@ -32,7 +41,12 @@ type Filter = i16;
 type Filter = u32;
 
 // Type of the `flags` field in the `kevent` structure.
-#[cfg(any(target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd"))]
+#[cfg(any(
+    target_os = "dragonfly",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "twizzler"
+))]
 type Flags = libc::c_ushort;
 #[cfg(any(
     target_os = "ios",
@@ -214,6 +228,7 @@ impl Selector {
         target_os = "ios",
         target_os = "macos",
         target_os = "tvos",
+        target_os = "twizzler",
         target_os = "visionos",
         target_os = "watchos"
     ))]
@@ -242,6 +257,7 @@ impl Selector {
         target_os = "ios",
         target_os = "macos",
         target_os = "tvos",
+        target_os = "twizzler",
         target_os = "visionos",
         target_os = "watchos"
     ))]
@@ -357,10 +373,8 @@ unsafe impl Sync for Events {}
 pub mod event {
     use std::fmt;
 
-    use crate::sys::Event;
-    use crate::Token;
-
     use super::{Filter, Flags};
+    use crate::{sys::Event, Token};
 
     pub fn token(event: &Event) -> Token {
         Token(event.udata as usize)
@@ -373,6 +387,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos"
             ))]
@@ -387,6 +402,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos"
             )))]
@@ -428,6 +444,7 @@ pub mod event {
             target_os = "ios",
             target_os = "macos",
             target_os = "tvos",
+            target_os = "twizzler",
             target_os = "visionos",
             target_os = "watchos",
         ))]
@@ -440,6 +457,7 @@ pub mod event {
             target_os = "ios",
             target_os = "macos",
             target_os = "tvos",
+            target_os = "twizzler",
             target_os = "visionos",
             target_os = "watchos",
         )))]
@@ -479,6 +497,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -491,6 +510,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -583,6 +603,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -593,6 +614,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -603,6 +625,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -613,6 +636,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -623,6 +647,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -633,6 +658,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -643,6 +669,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos",
             ))]
@@ -815,6 +842,7 @@ pub mod event {
                 target_os = "ios",
                 target_os = "macos",
                 target_os = "tvos",
+                target_os = "twizzler",
                 target_os = "visionos",
                 target_os = "watchos"
             ))]
@@ -879,8 +907,7 @@ cfg_io_source! {
 #[test]
 #[cfg(feature = "os-ext")]
 fn does_not_register_rw() {
-    use crate::unix::SourceFd;
-    use crate::{Poll, Token};
+    use crate::{unix::SourceFd, Poll, Token};
 
     let kq = unsafe { libc::kqueue() };
     let mut kqf = SourceFd(&kq);
