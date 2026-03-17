@@ -5,6 +5,7 @@
     unused_imports,
     dead_code
 )]
+#![allow(unexpected_cfgs)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 // Disallow warnings when running tests.
 #![cfg_attr(test, deny(warnings))]
@@ -82,7 +83,7 @@ pub mod unix {
         //!
         //! See the [`new`] function for documentation.
 
-        pub use crate::sys::pipe::{Receiver, Sender, new};
+        pub use crate::sys::pipe::{new, Receiver, Sender};
     }
 
     pub use crate::sys::SourceFd;
@@ -96,7 +97,7 @@ pub mod unix {
         //! Unix pipe.
         //!
         //! See the [`new`] function for documentation.
-        pub use crate::sys::pipe::{Receiver, Sender, new};
+        pub use crate::sys::pipe::{new, Receiver, Sender};
     }
 
     pub use crate::sys::SourceFd;
@@ -174,7 +175,7 @@ pub mod guide {
     //! # Ok(())
     //! # }
     //! ```
-    //!
+    //! 
     //! For example if we're using a [`TcpListener`],  we'll only want to
     //! attempt to accept an incoming connection *iff* any connections are
     //! queued and ready to be accepted. We don't want to waste our time if no
@@ -213,7 +214,7 @@ pub mod guide {
     //! # Ok(())
     //! # }
     //! ```
-    //!
+    //! 
     //! Multiple event sources can be [registered] (concurrently), so we can
     //! monitor multiple sources at a time.
     //!
