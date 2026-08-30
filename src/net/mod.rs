@@ -33,7 +33,10 @@ mod udp;
 #[cfg(not(target_os = "wasi"))]
 pub use self::udp::UdpSocket;
 
-#[cfg(unix)]
+// Twizzler has no unix-domain sockets, so `std::os::unix::net` and `sys::unix::uds` are both
+// absent; this mirrors the exclusion already present in `sys/unix/mod.rs`. Reachable only
+// because the target now claims the unix family.
+#[cfg(all(unix, not(any(target_os = "hermit", target_os = "twizzler"))))]
 mod uds;
-#[cfg(unix)]
+#[cfg(all(unix, not(any(target_os = "hermit", target_os = "twizzler"))))]
 pub use self::uds::{UnixDatagram, UnixListener, UnixStream};
