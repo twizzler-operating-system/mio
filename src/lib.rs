@@ -73,7 +73,7 @@ pub use token::Token;
 #[cfg(not(target_os = "wasi"))]
 pub use waker::Waker;
 
-#[cfg(all(unix, not(target_os = "twizzler"), feature = "os-ext"))]
+#[cfg(all(unix, feature = "os-ext"))]
 #[cfg_attr(docsrs, doc(cfg(all(unix, feature = "os-ext"))))]
 pub mod unix {
     //! Unix only extensions.
@@ -83,20 +83,6 @@ pub mod unix {
         //!
         //! See the [`new`] function for documentation.
 
-        pub use crate::sys::pipe::{new, Receiver, Sender};
-    }
-
-    pub use crate::sys::SourceFd;
-}
-
-#[cfg(all(target_os = "twizzler", feature = "os-ext"))]
-#[cfg_attr(docsrs, doc(cfg(all(unix, feature = "os-ext"))))]
-pub mod unix {
-    //! Unix only extensions.
-    pub mod pipe {
-        //! Unix pipe.
-        //!
-        //! See the [`new`] function for documentation.
         pub use crate::sys::pipe::{new, Receiver, Sender};
     }
 

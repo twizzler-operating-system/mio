@@ -118,7 +118,7 @@ cfg_os_poll! {
 
         pub(crate) mod tcp;
         pub(crate) mod udp;
-        #[cfg(not(any(target_os = "hermit", target_os = "twizzler")))]
+        #[cfg(not(target_os = "hermit"))]
         pub(crate) mod uds;
     }
 
